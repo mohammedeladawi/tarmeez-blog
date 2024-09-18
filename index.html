@@ -35,11 +35,21 @@
             <form>
               <div class="mb-3">
                 <label for="username" class="col-form-label">Username:</label>
-                <input type="text" class="form-control" id="username" />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="username"
+                  value="mohammed-eladawi"
+                />
               </div>
               <div class="mb-3">
                 <label for="password" class="col-form-label">Password:</label>
-                <input type="password" class="form-control" id="password" />
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  value="123456"
+                />
               </div>
             </form>
           </div>
@@ -54,7 +64,7 @@
             <button
               type="button"
               class="btn btn-primary"
-              onclick="handleLogin()"
+              onclick="handleLoginBtn()"
             >
               Login
             </button>
@@ -97,6 +107,7 @@
 
               <div class="w-100 text-end">
                 <button
+                  id="login-btn"
                   type="button"
                   class="btn btn-outline-success"
                   data-bs-toggle="modal"
@@ -105,8 +116,23 @@
                 >
                   Login
                 </button>
-                <button type="button" class="btn btn-outline-success">
+                <button
+                  id="register-btn"
+                  type="button"
+                  class="btn btn-outline-success"
+                >
                   Register
+                </button>
+              </div>
+
+              <div class="w-100 text-end">
+                <button
+                  id="logout-btn"
+                  type="button"
+                  class="btn btn-outline-danger"
+                  onclick="handleLogoutBtn()"
+                >
+                  Logout
                 </button>
               </div>
             </div>

@@ -57,15 +57,46 @@ const baseUrl = "https://tarmeezacademy.com/api/v1";
 axios
   .get(`${baseUrl}/posts`)
   .then((response) => postsUI(response.data.data))
-  .catch((err) => console.log(err.response.data.message));
+  .catch((err) => console.log(err));
 
-const handleLogin = () => {
+function loggedinSuccess(data) {
+  localStorage.setItem("token", data.token);
+  localStorage.setItem("user", JSON.stringify(data.user));
+  document.querySelector(".btn-close").click();
+  alert("Logged in successfully");
+
+  authUI();
+}
+
+function handleLoginBtn() {
   const username = document.querySelector("#username").value;
   const password = document.querySelector("#password").value;
 
   const body = { username, password };
   axios
     .post(`${baseUrl}/login`, body)
-    .then((response) => console.log(response.data))
-    .catch((err) => console.log(err.response.data.errors));
-};
+    .then((response) => loggedinSuccess(response.data))
+    .catch((err) => console.log(err));
+}
+
+function handleLogoutBtn() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+  alert("Logged out successfully");
+  authUI();
+}
+
+function authUI() {
+  const loginBtn = document.getElementById("login-btn");
+  const logoutBtn = document.getElementById("logout-btn");
+
+  if (localStorage.getItem("token")) {
+    loginBtn.parentElement.style.display = "none";
+    logoutBtn.parentElement.style.display = "block";
+  } else {
+    loginBtn.parentElement.style.display = "block";
+    logoutBtn.parentElement.style.display = "none";
+  }
+}
+
+authUI();
