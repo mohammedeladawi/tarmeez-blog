@@ -59,31 +59,55 @@ axios
   .then((response) => postsUI(response.data.data))
   .catch((err) => console.log(err));
 
-function loggedinSuccess(data) {
+function registeredSuccessfully(data) {
   localStorage.setItem("token", data.token);
   localStorage.setItem("user", JSON.stringify(data.user));
-  document.querySelector(".btn-close").click();
+  const bsModal = bootstrap.Modal.getInstance("#registerModal");
+  bsModal.hide();
 
   authUI();
-  showAuthAlert("logged in successfully", "success");
+  showAuthAlert("Registered successfully", "success");
+}
+
+function handleRegisterBtn() {
+  const username = document.querySelector("#username-register").value;
+  const password = document.querySelector("#password-register").value;
+  const name = document.querySelector("#name-register").value;
+  const email = document.querySelector("#email-register").value;
+
+  const body = { username, name, password, email };
+  axios
+    .post(`${baseUrl}/register`, body)
+    .then((response) => registeredSuccessfully(response.data))
+    .catch((err) => showAuthAlert(err.response.data.message, "danger"));
+}
+
+function loggedinSuccessfully(data) {
+  localStorage.setItem("token", data.token);
+  localStorage.setItem("user", JSON.stringify(data.user));
+  const bsModal = bootstrap.Modal.getInstance("#loginModal");
+  bsModal.hide();
+
+  authUI();
+  showAuthAlert("Logged in successfully", "success");
 }
 
 function handleLoginBtn() {
-  const username = document.querySelector("#username").value;
-  const password = document.querySelector("#password").value;
+  const username = document.querySelector("#username-login").value;
+  const password = document.querySelector("#password-login").value;
 
   const body = { username, password };
   axios
     .post(`${baseUrl}/login`, body)
-    .then((response) => loggedinSuccess(response.data))
-    .catch((err) => console.log(err));
+    .then((response) => loggedinSuccessfully(response.data))
+    .catch((err) => showAuthAlert(err.response.data.message, "danger"));
 }
 
 function handleLogoutBtn() {
   localStorage.removeItem("token");
   localStorage.removeItem("user");
   authUI();
-  showAuthAlert("logged out successfully", "danger");
+  showAuthAlert("Logged out successfully", "success");
 }
 
 function authUI() {

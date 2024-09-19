@@ -25,8 +25,8 @@ body {
 
 #auth-alert {
   position: fixed;
-  z-index: 999;
-  width: 300px;
+  z-index: 9999999999999999999999999;
+  width: fit-content;
   bottom: 3px;
   right: 3px;
 }
