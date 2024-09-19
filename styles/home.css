@@ -22,3 +22,11 @@ body {
   height: 100%;
   object-fit: cover;
 }
+
+#auth-alert {
+  position: fixed;
+  z-index: 999;
+  width: 300px;
+  bottom: 3px;
+  right: 3px;
+}

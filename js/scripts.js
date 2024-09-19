@@ -47,7 +47,7 @@ function postsUI(posts) {
     for (let tag of post.tags) {
       document.getElementById(
         "tags"
-      ).innerHTML += `<span class='tag bg-secondary py-2 px-1'>${tag}</span>`;
+      ).innerHTML += `<span class='tag bg-secondary py-2 px-1'>${tag.name}</span>`;
     }
   }
 }
@@ -63,9 +63,9 @@ function loggedinSuccess(data) {
   localStorage.setItem("token", data.token);
   localStorage.setItem("user", JSON.stringify(data.user));
   document.querySelector(".btn-close").click();
-  alert("Logged in successfully");
 
   authUI();
+  showAuthAlert("logged in successfully", "success");
 }
 
 function handleLoginBtn() {
@@ -82,8 +82,8 @@ function handleLoginBtn() {
 function handleLogoutBtn() {
   localStorage.removeItem("token");
   localStorage.removeItem("user");
-  alert("Logged out successfully");
   authUI();
+  showAuthAlert("logged out successfully", "danger");
 }
 
 function authUI() {
@@ -97,6 +97,28 @@ function authUI() {
     loginBtn.parentElement.style.display = "block";
     logoutBtn.parentElement.style.display = "none";
   }
+}
+
+function showAuthAlert(message, type) {
+  const alertPlaceholder = document.getElementById("auth-alert");
+  const appendAlert = (message, type) => {
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = [
+      `<div class="alert alert-${type} alert-dismissible fade show" role="alert">`,
+      `   <div>${message}</div>`,
+      '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+      "</div>",
+    ].join("");
+
+    alertPlaceholder.append(wrapper);
+  };
+
+  appendAlert(message, type);
+
+  setTimeout(
+    () => document.querySelector("#auth-alert .btn-close").click(),
+    2000
+  );
 }
 
 authUI();
