@@ -1,3 +1,5 @@
+const baseUrl = "https://tarmeezacademy.com/api/v1";
+
 function postsUI(posts) {
   const postsDiv = document.querySelector(".posts");
   postsDiv.innerHTML = "";
@@ -52,12 +54,12 @@ function postsUI(posts) {
   }
 }
 
-const baseUrl = "https://tarmeezacademy.com/api/v1";
-
-axios
-  .get(`${baseUrl}/posts`)
-  .then((response) => postsUI(response.data.data))
-  .catch((err) => console.log(err));
+function getPosts() {
+  axios
+    .get(`${baseUrl}/posts`)
+    .then((response) => postsUI(response.data.data))
+    .catch((err) => console.log(err));
+}
 
 function registeredSuccessfully(data) {
   localStorage.setItem("token", data.token);
@@ -66,7 +68,7 @@ function registeredSuccessfully(data) {
   bsModal.hide();
 
   authUI();
-  showAuthAlert("Registered successfully", "success");
+  showAlert("Registered successfully", "success");
 }
 
 function handleRegisterBtn() {
@@ -79,7 +81,7 @@ function handleRegisterBtn() {
   axios
     .post(`${baseUrl}/register`, body)
     .then((response) => registeredSuccessfully(response.data))
-    .catch((err) => showAuthAlert(err.response.data.message, "danger"));
+    .catch((err) => showAlert(err.response.data.message, "danger"));
 }
 
 function loggedinSuccessfully(data) {
@@ -89,7 +91,7 @@ function loggedinSuccessfully(data) {
   bsModal.hide();
 
   authUI();
-  showAuthAlert("Logged in successfully", "success");
+  showAlert("Logged in successfully", "success");
 }
 
 function handleLoginBtn() {
@@ -100,14 +102,14 @@ function handleLoginBtn() {
   axios
     .post(`${baseUrl}/login`, body)
     .then((response) => loggedinSuccessfully(response.data))
-    .catch((err) => showAuthAlert(err.response.data.message, "danger"));
+    .catch((err) => showAlert(err.response.data.message, "danger"));
 }
 
 function handleLogoutBtn() {
   localStorage.removeItem("token");
   localStorage.removeItem("user");
   authUI();
-  showAuthAlert("Logged out successfully", "success");
+  showAlert("Logged out successfully", "success");
 }
 
 function authUI() {
@@ -117,13 +119,15 @@ function authUI() {
   if (localStorage.getItem("token")) {
     loginBtn.parentElement.style.display = "none";
     logoutBtn.parentElement.style.display = "block";
+    document.getElementById("add-post").style.visibility = "visible";
   } else {
     loginBtn.parentElement.style.display = "block";
     logoutBtn.parentElement.style.display = "none";
+    document.getElementById("add-post").style.visibility = "hidden";
   }
 }
 
-function showAuthAlert(message, type) {
+function showAlert(message, type) {
   const alertPlaceholder = document.getElementById("auth-alert");
   const appendAlert = (message, type) => {
     const wrapper = document.createElement("div");
@@ -139,10 +143,46 @@ function showAuthAlert(message, type) {
 
   appendAlert(message, type);
 
-  setTimeout(
-    () => document.querySelector("#auth-alert .btn-close").click(),
-    2000
-  );
+  let alertTimeout = setTimeout(() => {
+    document.querySelector("#auth-alert .btn-close")?.click();
+    clearTimeout(alertTimeout);
+  }, 2000);
 }
 
+function postCreatedSuccessfully() {
+  showAlert("Post created successfully", "success");
+  const bsModal = bootstrap.Modal.getInstance("#addPostModal");
+  bsModal.hide();
+  getPosts();
+}
+
+function handleCreateNewPostBtn() {
+  const postTitle = document.querySelector("#add-post-title").value;
+  const postBody = document.querySelector("#add-post-body").value;
+  const postImage = document.querySelector("#add-post-image").files[0];
+  console.log(postImage);
+
+  const formData = new FormData();
+  formData.append("title", postTitle);
+  formData.append("body", postBody);
+  formData.append("image", postImage);
+
+  const config = {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  };
+
+  axios
+    .post(`${baseUrl}/posts`, formData, config)
+    .then((response) => {
+      postCreatedSuccessfully();
+    })
+    .catch((err) => {
+      showAlert(err.response?.data?.message, "danger");
+    });
+}
+
+getPosts();
 authUI();
