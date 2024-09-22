@@ -5,7 +5,7 @@
 }
 
 body {
-  background-color: #d7b1fa;
+  background-color: #e8e8e8;
 }
 
 .profile {
@@ -52,4 +52,27 @@ body {
 #nav-user-image {
   width: 40px;
   height: 40px;
+}
+
+.user-image {
+  width: 40px;
+  height: 40px;
+}
+
+.post-comments {
+  background-color: #e6f0f9;
+}
+
+.add-comment > input {
+  flex: 1;
+  border: 1px solid #ddd;
+  padding: 7px 10px;
+}
+.add-comment > input:focus {
+  border: none;
+  outline: none;
+}
+
+.add-comment > button {
+  width: 70px;
 }
