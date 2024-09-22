@@ -1,8 +1,24 @@
 const baseUrl = "https://tarmeezacademy.com/api/v1";
+let currentPage = 1;
+let lastPage;
+
+// Scroll infinite pagination
+function handlePagination() {
+  const endOfPage =
+    window.innerHeight + window.pageYOffset + 1000 >=
+    document.body.offsetHeight;
+
+  if (endOfPage && currentPage < lastPage) {
+    currentPage += 1;
+    getPosts(currentPage);
+  }
+}
+
+window.addEventListener("scroll", handlePagination);
 
 function postsUI(posts) {
   const postsDiv = document.querySelector(".posts");
-  postsDiv.innerHTML = "";
+  // postsDiv.innerHTML = "";
 
   for (let post of posts) {
     postsDiv.innerHTML += `
@@ -39,25 +55,27 @@ function postsUI(posts) {
                   />
                 </svg>
                 <span>(${post.comments_count}) Comments</span>
-                <div id='tags w-100 d-inline-flex justify-content-end g-2'></div>
+                <div id='tags' class='d-inline-flex justify-content-end gap-2'></div>
               </div>
             </div>
         </div>
 `;
-
     // Tags
     for (let tag of post.tags) {
       document.getElementById(
         "tags"
-      ).innerHTML += `<span class='tag bg-secondary py-2 px-1'>${tag.name}</span>`;
+      ).innerHTML += `<span class='tag bg-secondary text-light rounded py-2 px-1'>${tag.name}</span>`;
     }
   }
 }
 
-function getPosts() {
+function getPosts(pageNum) {
   axios
-    .get(`${baseUrl}/posts`)
-    .then((response) => postsUI(response.data.data))
+    .get(`${baseUrl}/posts?limit=5&page=${pageNum}`)
+    .then((response) => {
+      postsUI(response.data.data);
+      lastPage = response.data.meta.last_page;
+    })
     .catch((err) => console.log(err));
 }
 
@@ -76,10 +94,21 @@ function handleRegisterBtn() {
   const password = document.querySelector("#password-register").value;
   const name = document.querySelector("#name-register").value;
   const email = document.querySelector("#email-register").value;
+  const image = document.querySelector("#image-register").files[0];
 
-  const body = { username, name, password, email };
+  let formData = new FormData();
+  formData.append("username", username);
+  formData.append("password", password);
+  formData.append("name", name);
+  formData.append("email", email);
+  formData.append("image", image);
+
   axios
-    .post(`${baseUrl}/register`, body)
+    .post(`${baseUrl}/register`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
     .then((response) => registeredSuccessfully(response.data))
     .catch((err) => showAlert(err.response.data.message, "danger"));
 }
@@ -116,11 +145,17 @@ function authUI() {
   const loginBtn = document.getElementById("login-btn");
   const logoutBtn = document.getElementById("logout-btn");
 
-  if (localStorage.getItem("token")) {
+  // User logged in
+  if (localStorage.getItem("token") && localStorage.getItem("user")) {
     loginBtn.parentElement.style.display = "none";
     logoutBtn.parentElement.style.display = "block";
     document.getElementById("add-post").style.visibility = "visible";
+
+    let user = JSON.parse(localStorage.getItem("user"));
+    document.getElementById("nav-user-image").src = user.profile_image;
+    document.getElementById("nav-username").innerHTML = `@${user.username}`;
   } else {
+    // Guest (user did not login)
     loginBtn.parentElement.style.display = "block";
     logoutBtn.parentElement.style.display = "none";
     document.getElementById("add-post").style.visibility = "hidden";
@@ -184,5 +219,5 @@ function handleCreateNewPostBtn() {
     });
 }
 
-getPosts();
+getPosts(currentPage);
 authUI();

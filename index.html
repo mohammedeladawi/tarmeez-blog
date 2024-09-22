@@ -122,6 +122,12 @@
                 />
               </div>
               <div class="mb-3">
+                <label for="image-register" class="col-form-label"
+                  >image:</label
+                >
+                <input type="file" class="form-control" id="image-register" />
+              </div>
+              <div class="mb-3">
                 <label for="name-register" class="col-form-label">Name:</label>
                 <input
                   type="text"
@@ -305,6 +311,15 @@
               </div>
 
               <div class="w-100 text-end">
+                <div id="logged-in-user" class="d-inline">
+                  <img
+                    id="nav-user-image"
+                    src="imgs/skills-05.png"
+                    alt="Your image"
+                    class="rounded-circle"
+                  />
+                  <b id="nav-username">@mohammed</b>
+                </div>
                 <button
                   id="logout-btn"
                   type="button"
