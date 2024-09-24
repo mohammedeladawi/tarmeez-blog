@@ -236,6 +236,81 @@
     </div>
     <!--// Add Post Modal //-->
 
+    <!-- Update Post Modal -->
+    <div
+      class="modal fade"
+      id="updatePostModal"
+      tabindex="-1"
+      aria-labelledby="updatePostLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="updatePostLabel">Update Post</h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="update-post-title" class="col-form-label"
+                  >Title:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="update-post-title"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="update-post-body" class="col-form-label"
+                  >Body:</label
+                >
+                <textarea
+                  type="text"
+                  class="form-control"
+                  id="update-post-body"
+                ></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="update-post-image" class="col-form-label"
+                  >Image:</label
+                >
+                <input
+                  type="file"
+                  class="form-control"
+                  id="update-post-image"
+                />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="handleUpdatePostBtn()"
+            >
+              Update
+            </button>
+          </div>
+          <input id="update-post-id" type="hidden" value="" />
+        </div>
+      </div>
+    </div>
+    <!--// Update Post Modal //-->
+
     <!--// ====Modals==== //-->
 
     <!-- ====Alerts==== -->
