@@ -76,3 +76,19 @@ textarea {
 .add-comment > button {
   width: 70px;
 }
+
+.profile-img {
+  width: 80px;
+  height: 80px;
+  max-width: 100%;
+  object-fit: cover;
+}
+
+.user-info {
+  font-weight: bold;
+}
+
+.number-info > span {
+  font-size: 60px;
+  color: #000000;
+}

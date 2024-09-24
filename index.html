@@ -311,6 +311,49 @@
     </div>
     <!--// Update Post Modal //-->
 
+    <!-- Delete Post Modal -->
+    <div
+      class="modal fade"
+      id="deletePostModal"
+      tabindex="-1"
+      aria-labelledby="deletePostModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="deletePostModalLabel">
+              Are sure that you want to delete this post ?
+            </h1>
+            <input type="hidden" id="delete-post-id" />
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              onclick="handleDeleteBtn()"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--// Delete Post Modal //-->
+
     <!--// ====Modals==== //-->
 
     <!-- ====Alerts==== -->
@@ -353,12 +396,15 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
               <ul class="navbar-nav">
                 <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="#"
+                  <a
+                    class="nav-link active"
+                    aria-current="page"
+                    href="index.html"
                     >Home</a
                   >
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">Profile</a>
+                  <a class="nav-link" href="profile.html">Profile</a>
                 </li>
               </ul>
 
@@ -424,6 +470,6 @@
     <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="./node_modules/axios/dist/axios.min.js"></script>
     <script src="./js/mainLogic.js"></script>
-    <script src="/js/home.js"></script>
+    <script src="/js/homeScripts.js"></script>
   </body>
 </html>
