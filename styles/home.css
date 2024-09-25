@@ -77,10 +77,9 @@ textarea {
   width: 70px;
 }
 
-.profile-img {
+#user-profile-img {
   width: 80px;
   height: 80px;
-  max-width: 100%;
   object-fit: cover;
 }
 
